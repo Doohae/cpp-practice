@@ -1,0 +1,82 @@
+7-1-1
+void Polynomial::operator=(Polynomial& source) {
+	if (this == &source) return;
+	d = source.d;
+	delete[] a;
+	if (source.a != 0) {
+		a = new double[sizeof(source.a)];
+		a = source.a;
+	}
+	else {
+		a = 0;
+	}
+}
+7-1-2
+Polynomial::Polynomial(Polynomial& source) {
+	d = source.d;
+	if (source.a != 0) {
+		a = new double[sizeof(source.a)];
+		a = source.a;
+	}
+	else {
+		a = 0;
+	}
+}
+7-1-3
+void Polynomial::print(ostream* os) {
+	*os << "Degree is " << d;
+	*os << ", Coefficient is ";
+	for (int i = 0; i < d; i++) {
+		*os << a[i] << " ";
+	}
+}
+
+ostream& operator<<(ostream& os, Polynomial& poly) {
+	poly.print(&os);
+	return os;
+}
+
+7-2-1
+my_string::my_string() {
+    cstring = NULL;
+    clength = 0;
+}
+my_string::my_string(const char* s) {
+    clength = strlen(s);
+    cstring = new char[clength + 1];
+    strcpy(cstring, s);
+}
+7-2-2
+my_string::~my_string() {
+	delete[] cstring;
+}
+7-2-3
+my_string& my_string::operator=(const my_string& cs) {
+    if (cstring==NULL) return *this;
+    clength = cs.clength;
+    delete[] cstring;
+
+    cstring = new char[strlen(cs.cstring)+1];
+    strcpy(cstring, cs.cstring);
+    return *this;
+}
+7-2-4
+my_string& my_string::operator+(const my_string& cs) {
+	char* ctemp = new char[strlen(cstring) + strlen(cs.cstring) + 1];
+	strcpy(ctemp, cstring);
+	delete[] cstring;
+	strcat(ctemp, cs.cstring);
+	clength = clength + cs.clength;
+	cstring = new char[clength + 1];
+	strcpy(cstring, ctemp);
+	delete[] ctemp;
+	return *this;
+}
+7-2-5
+void my_string::print(ostream* os) {
+    *os << cstring; 
+}
+ostream& operator<<(ostream& os, my_string& cs) {
+    cs.print(&os);
+    return os;
+}
